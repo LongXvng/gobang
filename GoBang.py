@@ -67,7 +67,7 @@ def jump(_x, _y, _user):
     return True
 
 
-def calWin():
+def checkWin():
     global lastJump
     if not len(lastJump):
         return [False, 0]
@@ -111,7 +111,7 @@ i = 0
 init()
 while True:
     paint()
-    isWin, winUser = calWin()
+    isWin, winUser = checkWin()
 
     if not isWin:
         user = i % 2
