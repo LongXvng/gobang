@@ -1,3 +1,5 @@
+package com.test.openinstall;
+
 import java.util.Scanner;
 
 public class GoBang {
@@ -21,6 +23,7 @@ public class GoBang {
     // 接收用户输入
     public static Scanner scanner;
 
+
     static {
         direction = new int[][]{{0, 1}, {1, 0}, {1, 1}, {1, -1}};
         chessboard = new String[WIDTH][HEIGHT];
@@ -30,14 +33,14 @@ public class GoBang {
     public static void init() {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
-                if (x == 0)
+                if (x == 0) {
                     chessboard[x][y] = Integer.toHexString(x);
-                else {
-                    if (y == 0)
+                } else {
+                    if (y == 0) {
                         chessboard[x][y] = Integer.toHexString(y);
-                    else
+                    } else {
                         chessboard[x][y] = BLANK;
-
+                    }
                 }
             }
         }
@@ -45,8 +48,9 @@ public class GoBang {
 
     public static void paint() {
         for (String[] line : chessboard) {
-            for (String x : line)
+            for (String x : line) {
                 System.out.print(x + "  ");
+            }
             System.out.println();
         }
     }
@@ -57,8 +61,9 @@ public class GoBang {
             System.out.println(String.format("%s(%s)玩家 请落子>", user == 0 ? "A" : "B", user == 0 ? BLACK : WHITE));
             String inputStr = scanner.next();
 
-            if ("quit".equals(inputStr.toLowerCase()) || "exit".equals(inputStr.toLowerCase()))
+            if ("quit".equals(inputStr.toLowerCase()) || "exit".equals(inputStr.toLowerCase())) {
                 return new int[]{GAME_TYPE_CLOSE, 0, 0};
+            }
 
             if ("regret".equals(inputStr.toLowerCase())) {
                 chessboard[(int) lastJump[0]] [(int) lastJump[1]] = BLANK;
@@ -97,8 +102,9 @@ public class GoBang {
     }
 
     public static Object[] checkWin() {
-        if (lastJump == null || lastJump.length == 0)
+        if (lastJump == null || lastJump.length == 0) {
             return new Object[]{false, 0};
+        }
 
         int last_x = (int) lastJump[0];
         int last_y = (int) lastJump[1];
@@ -108,8 +114,9 @@ public class GoBang {
         for (int[] offset : direction) {
             Object[] result = calDirection(last_x, last_y, offset[0], offset[1], chessman);
             boolean _isWin = (boolean) result[0];
-            if (_isWin)
+            if (_isWin) {
                 return result;
+            }
         }
         return new Object[]{false, 0};
     }
@@ -120,10 +127,12 @@ public class GoBang {
             if (_x > 1 && _x < WIDTH && _y > 1 && _y < HEIGHT) {
                 _x += offset_x;
                 _y += offset_y;
-                if (!chessboard[_x][_y].equals(_chessman))
+                if (!chessboard[_x][_y].equals(_chessman)) {
                     break;
-            } else
+                }
+            } else {
                 break;
+            }
         }
         while (true) {
             if (_x > 1 && _x < WIDTH && _y > 1 && _y < HEIGHT) {
@@ -131,12 +140,15 @@ public class GoBang {
                 _y += -1 * offset_y;
                 if (chessboard[_x][_y].equals(_chessman)) {
                     count += 1;
-                    if (count >= 5)
+                    if (count >= 5) {
                         break;
-                } else
+                    }
+                } else {
                     break;
-            } else
+                }
+            } else {
                 break;
+            }
         }
         return new Object[]{count == 5, BLACK.equals(_chessman) ? 0 : 1};
     }
@@ -159,15 +171,16 @@ public class GoBang {
                 int x = inputs[1];
                 int y = inputs[2];
 
-                if (gameType == GAME_TYPE_CLOSE)
+                if (gameType == GAME_TYPE_CLOSE) {
                     break;
-                else if (gameType == GAME_TYPE_REGRET) {
+                } else if (gameType == GAME_TYPE_REGRET) {
                     i -= 1;
                     continue;
                 }
 
-                if (jump(x, y, user))
+                if (jump(x, y, user)) {
                     i += 1;
+                }
             } else {
                 System.out.println(String.format("游戏结束！ %s(%s)玩家获胜 双方落子%d手", winUser == 0 ? "A" : "B", winUser == 0 ? BLACK : WHITE, i));
                 break;
